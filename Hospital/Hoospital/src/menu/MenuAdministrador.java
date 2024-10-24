@@ -66,9 +66,6 @@ public class MenuAdministrador {
                     System.out.println("Ingresa el sexo del paciente: ");
                     char sexo = scanner.next().charAt(0);
 
-                    /*if(!hospital.validarNumeroPaciente(telefono)) {
-                        System.out.println("\n Este numero de telefono ya fue registrado, por favor ingrese una válido:");
-                        return;}*/
 
                     Paciente paciente = new Paciente(idPaciente,nombrePaciente,apellidoPaciente,fechaNacimientoPaciente,numeroTelefonoPaciente,tipoDeSangre,sexo,contraseniaPaciente);
 
@@ -82,7 +79,7 @@ public class MenuAdministrador {
                     System.out.println("\nSeleccionaste la opción para registrar un medico");
 
 
-                    ArrayList<String> datosMedico = this.obtenerDatosComun(Rol.PACIENTE);
+                    ArrayList<String> datosMedico = this.obtenerDatosComun(Rol.MEDICO);
 
                     String nombreMedico = datosMedico.get(0);
 
