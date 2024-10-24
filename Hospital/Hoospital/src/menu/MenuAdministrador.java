@@ -99,7 +99,7 @@ public class MenuAdministrador {
                     String idMedico = hospital.generarIdMedico(nombreMedico, String.valueOf(fechaNacimientoMedico));
                     Medico medico = new Medico(idMedico,nombreMedico,apellidoMedico,fechaNacimientoMedico,numeroTelefonoMedico,rfcMedico,contraseniaMedico);
                     hospital.registrarMedico(medico);
-                    System.out.println("\nMedico con el id: "+idMedico+" registrado correctamente");
+                    System.out.println("\nMedico con el id: "+idMedico+" registrado correctamente ");
                     break;
 
                 case 3:
