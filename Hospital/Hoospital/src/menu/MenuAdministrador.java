@@ -9,6 +9,7 @@ import usuarios.medicos.Medico;
 import usuarios.pacientes.Paciente;
 import usuarios.utils.Rol;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -78,100 +79,28 @@ public class MenuAdministrador {
                     break;
 
                 case 2:
-                    System.out.println("\n Seleccionaste la opcion de registrar un medico\n");
-                    ArrayList<String> datosMedico = this.obtenerDatosComun(Rol.MEDICO);
-                    String x =datosMedico.get(1);
-                    char apellidoMedico= x.charAt(0);
-                    char apellidoMedico1= x.charAt(1);
-                    LocalDate fechaNacimientoMedico1=LocalDate.parse(datosMedico.get(2));
+                    System.out.println("\nSeleccionaste la opción para registrar un medico");
 
-                    String numeroTelefonoMedico = null;
-                    boolean telefonox = false;
-                    while (!telefonox) {
-                        System.out.println("Ingresa el numero de telefono del Medico");
-                        numeroTelefonoMedico= scanner.nextLine();
-                        telefonox = true;
-                        for (Medico medicoExistente : hospital.listaMedicos) {
-                            if (medicoExistente.getTelefono().equals(numeroTelefonoMedico)) {
-                                System.out.println("Tenemos un medico con ese numero intentelo de nuevo");
-                                telefonox = false;
-                                break;
-                            }
-                        }
-                    }
 
-                    String rfcMedico = null;
-                    boolean rfcx = false;
-                    while (!rfcx) {
-                        System.out.println("Ingresa el rfc del Medico");
-                        rfcMedico= scanner.nextLine();
-                        rfcx = true;
-                        for (Medico medicoExistente : hospital.listaMedicos) {
-                            if (medicoExistente.getRfc().equals(rfcMedico)) {
-                                System.out.println("Tenemos un Medico con ese RFC intentelo de nuevo");
-                                rfcx = false;
-                                break;
-                            }
-                        }
-                    }
+                    ArrayList<String> datosMedico = this.obtenerDatosComun(Rol.PACIENTE);
 
-                    //String idMedico = hospital.generarIdMedico(nombreMedico, String.valueOf(anioMedico));
-                    String idMedico=hospital.generarIdMedico(datosMedico.get(0),datosMedico.get(2));
-                    System.out.println("medico registrado con el id: "+ idMedico);
+                    String nombreMedico = datosMedico.get(0);
 
-                    Medico medico =new Medico(idMedico,datosMedico.get(0),datosMedico.get(1),LocalDate.parse(datosMedico.get(2)),numeroTelefonoMedico,rfcMedico, datosMedico.get(3));
+                    String apellidoMedico = datosMedico.get(1);
+
+                    LocalDate fechaNacimientoMedico = LocalDate.parse(datosMedico.get(2));
+
+                    String numeroTelefonoMedico = datosMedico.get(3);
+
+                    String contraseniaMedico = datosMedico.get(4);
+
+                    System.out.println("Ingresa el RFC del medico: ");
+                    String rfcMedico = scanner.nextLine();
+                    String idMedico = hospital.generarIdMedico(nombreMedico, String.valueOf(fechaNacimientoMedico));
+                    Medico medico = new Medico(idMedico,nombreMedico,apellidoMedico,fechaNacimientoMedico,numeroTelefonoMedico,rfcMedico,contraseniaMedico);
                     hospital.registrarMedico(medico);
-
-                    //idMedico marcaba error ya que el constructor que teniamos esperaba un id int y nosotros son las modificaciones que hicimos era string entonces tenemos que cambiar los int por string
+                    System.out.println("\nMedico con el id: "+idMedico+" registrado correctamente");
                     break;
-                    /*System.out.println("Ingrese el nombre del medico ");
-                    String nombreMedico= scanner.nextLine();
-                    System.out.println("Ingresa el apellido del medico ");
-                    String apellidoMedico= scanner.nextLine();
-                    System.out.println("Ingrese la contrasenia del medico: ");
-                    String contraseniaM = scanner.nextLine();
-                    System.out.println("Ingresa el año de nacimiento del paciente: ");
-                    int anioMedico = scanner.nextInt();
-                    System.out.println("Ingresa el mes de nacimiento del paciente: ");
-                    int mesMedico = scanner.nextInt();
-
-                    System.out.println("Ingresa el dia de nacimiento del paciente: ");
-                    int diaMedico = scanner.nextInt();
-                    LocalDate anoMedico = LocalDate.of(anioMedico, mesMedico, diaMedico );
-                    String idMedico = hospital.generarIdMedico(nombreMedico, String.valueOf(anioMedico));
-                    String telefonoMedico = null;
-                    boolean telefonoUnico = false;
-                    while (!telefonoUnico) {
-                        System.out.println("Ingresa el número de teléfono: ");
-                        telefonoMedico = scanner.nextLine();
-                        telefonoUnico = true;
-                        for (Medico medicoExistente : hospital.listaMedicos) {
-                            if (medicoExistente.getTelefono().equals(telefonoMedico)) {
-                                System.out.println("Ya existe un médico con este número de teléfono. Intente de nuevo.");
-                                telefonoUnico = false;
-                                break;
-                            }
-                        }
-                    }
-                    String rfcMedico = null;
-                    boolean rfcUnico = false;
-                    while (!rfcUnico) {
-                        System.out.println("Ingresa el RFC del médico: ");
-                        rfcMedico = scanner.nextLine();
-                        rfcUnico = true;
-                        for (Medico medicoExistente : hospital.listaMedicos) {
-                            if (medicoExistente.getRfc().equals(rfcMedico)) {
-                                System.out.println("Ya existe un médico con este RFC. Intente de nuevo.");
-                                rfcUnico = false;
-                                break;
-                            }
-                        }
-                    }
-                    Medico medico = new Medico(idMedico, apellidoMedico, nombreMedico, anoMedico, telefonoMedico, rfcMedico, contraseniaM);
-                    hospital.registrarMedico(medico);
-
-                    System.out.println("Médico registrado correctamente.");
-                    break;*/
 
                 case 3:
                     System.out.println("\nSeleccionaste la opción para Registrar Consultorio ");
@@ -323,7 +252,7 @@ public class MenuAdministrador {
             System.out.println(String.format("Ingrese el telefono del:  %s",tipousuario));
             String telefono = scanner.nextLine();
             datosEnComun.add(telefono);
-            System.out.println(String.format("Ingrese la contrasenoa del:  %s",tipousuario));
+            System.out.println(String.format("Ingrese la contrasenIa del:  %s",tipousuario));
             String contrasenia = scanner.nextLine();
             datosEnComun.add(contrasenia);
             return datosEnComun;
