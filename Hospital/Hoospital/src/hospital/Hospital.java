@@ -26,7 +26,7 @@ public class Hospital {
     public ArrayList<Consultorio> listaConsultorios = new ArrayList<>();
     private ValidadorHospital validador = new ValidadorHospital();
     public Hospital(){
-        Administrador administrador = new Administrador("admin1","Hugo","Perez", LocalDate.now(),"4343838934","1234",Rol.ADMIN,20000,20,"JUAN12323ML");
+        Administrador administrador = new Administrador("admin1","Hugo","Perez", LocalDate.now(),"4343838934","1234",Rol.ADMIN,20000,20,"JUAN12323ML","hugoperez2213@gmail.com");
         this.listaUsuarios.add(administrador);
         this.listaAdministradores.add(administrador);
     }
@@ -208,6 +208,7 @@ public class Hospital {
         System.out.println("Fecha de nacimiento: " + medico.getFechaNacimiento());
         System.out.println("Teléfono: " + medico.getTelefono());
         System.out.println("RFC: " + medico.getRfc());
+        System.out.println("Email: "+medico.getEmail());
     }
     public void mostrarConsultasProgramadas(String idMedico){
         boolean existenConsultas = false;
@@ -231,6 +232,7 @@ public class Hospital {
         System.out.println("Apellido: " + paciente.getApellidos());
         System.out.println("Fecha de nacimiento: " + paciente.getFechaNacimiento());
         System.out.println("Telefono: " + paciente.getTelefono());
+        System.out.println("Email: " + paciente.getEmail());
     }
 
     public void mostrarInfoAdmin (Administrador administrador){
@@ -241,6 +243,7 @@ public class Hospital {
         System.out.println("Anios trabajados: "+ administrador.getAniosTrabajados());
         System.out.println("RFC: "+administrador.getRfc());
         System.out.println("Telefono: "+administrador.getTelefono());
+        System.out.println("Email: "+administrador.getEmail());
 
     }
 
@@ -285,5 +288,44 @@ public class Hospital {
        //Registrar el expediente en el paciente
         paciente.registrarExpediente(expediente);
         System.out.println("Consulta finalizada");
+    }
+
+    public void mostrarListaUsuarios() {
+        if (listaUsuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados.");
+            return;
+        }
+
+        for (Usuario usuario : listaUsuarios) {
+            System.out.println("ID: " + usuario.getId());
+            System.out.println("Nombre: " + usuario.getNombre() + " " + usuario.getApellidos());
+            System.out.println("Fecha de Nacimiento: " + usuario.getFechaNacimiento());
+            System.out.println("Teléfono: " + usuario.getTelefono());
+            System.out.println("Email: " + usuario.getEmail());
+            System.out.println("Rol: " + usuario.getRol());
+            System.out.println("-----------------------------");
+        }
+    }
+
+    public boolean validarEmailRepetido(ArrayList<? extends Usuario>listaUsuarios,String email){
+        for (Usuario usuario : listaUsuarios) {
+            if(usuario.getEmail().equals(email)){
+                System.out.print("Ya existe un usuario con ese email intenta de nuevo");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean validarTelefonoRepetido(
+            ArrayList< ? extends Usuario> listaUsarios, String telefono
+    ){
+        for (Usuario usuario : listaUsarios) {
+            if(usuario.getTelefono().equals(telefono)){
+                System.out.println("Ya existe un usuario con ese telefono. Intenta de nuevo");
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -14,9 +14,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Scanner;
-//
+
 public class MenuAdministrador {
     private Scanner scanner = new Scanner(System.in);
+    private Hospital hospital = new Hospital();
     public int mostrarMenu() {
             System.out.println("\n*** SISTEMA HOSPITAL*");
             System.out.println("1.Registrar Paciente ");
@@ -53,9 +54,11 @@ public class MenuAdministrador {
 
                     LocalDate fechaNacimientoPaciente= LocalDate.parse(datosPaciente.get(2));
 
-                    String numeroTelefonoPaciente = datosPaciente.get(3);
+                    String numeroTelefonoPaciente = datosPaciente.get(4);
 
-                    String contraseniaPaciente = datosPaciente.get(4);
+                    String contraseniaPaciente = datosPaciente.get(3);
+
+                    String emialPaciente = datosPaciente.get(5);
 
 
                     System.out.println("Ingresa el tipo de sangre del paciente: ");
@@ -66,8 +69,11 @@ public class MenuAdministrador {
                     System.out.println("Ingresa el sexo del paciente: ");
                     char sexo = scanner.next().charAt(0);
 
+                    /*if(!hospital.validarNumeroPaciente(telefono)) {
+                        System.out.println("\n Este numero de telefono ya fue registrado, por favor ingrese una válido:");
+                        return;}*/
 
-                    Paciente paciente = new Paciente(idPaciente,nombrePaciente,apellidoPaciente,fechaNacimientoPaciente,numeroTelefonoPaciente,tipoDeSangre,sexo,contraseniaPaciente);
+                    Paciente paciente = new Paciente(idPaciente,nombrePaciente,apellidoPaciente,fechaNacimientoPaciente,numeroTelefonoPaciente,tipoDeSangre,sexo,contraseniaPaciente,emialPaciente);
 
                     hospital.registrarPaciente(paciente);
 
@@ -87,16 +93,18 @@ public class MenuAdministrador {
 
                     LocalDate fechaNacimientoMedico = LocalDate.parse(datosMedico.get(2));
 
-                    String numeroTelefonoMedico = datosMedico.get(3);
+                    String numeroTelefonoMedico = datosMedico.get(4);
 
-                    String contraseniaMedico = datosMedico.get(4);
+                    String contraseniaMedico = datosMedico.get(3);
+
+                    String emailMedico = datosMedico.get(5);
 
                     System.out.println("Ingresa el RFC del medico: ");
                     String rfcMedico = scanner.nextLine();
                     String idMedico = hospital.generarIdMedico(nombreMedico, String.valueOf(fechaNacimientoMedico));
-                    Medico medico = new Medico(idMedico,nombreMedico,apellidoMedico,fechaNacimientoMedico,numeroTelefonoMedico,rfcMedico,contraseniaMedico);
+                    Medico medico = new Medico(idMedico,nombreMedico,apellidoMedico,fechaNacimientoMedico,numeroTelefonoMedico,rfcMedico,contraseniaMedico,emailMedico);
                     hospital.registrarMedico(medico);
-                    System.out.println("\nMedico con el id: "+idMedico+" registrado correctamente ");
+                    System.out.println("\nMedico con el id: "+idMedico+" registrado correctamente");
                     break;
 
                 case 3:
@@ -237,21 +245,41 @@ public class MenuAdministrador {
         String tipousuario = rol == Rol.PACIENTE ? "paciente" : rol == Rol.MEDICO ? "medico" : "administrador";
         ArrayList<String> datosEnComun = new ArrayList<>();
 
-            System.out.println(String.format("Ingrese el nombre del %s",tipousuario));
+            System.out.println(String.format("Ingrese el nombre del %s",tipousuario)); //0
             String nombre = scanner.nextLine();
             datosEnComun.add(nombre);
-            System.out.println(String.format("Ingrese el apellido del %s",tipousuario));
+            System.out.println(String.format("Ingrese el apellido del %s",tipousuario)); //1
             String apellido = scanner.nextLine();
             datosEnComun.add(apellido);
 
-            datosEnComun.add(obtenerFechaNacimientoUsuario(tipousuario));
+            datosEnComun.add(obtenerFechaNacimientoUsuario(tipousuario));//3
 
-            System.out.println(String.format("Ingrese el telefono del:  %s",tipousuario));
-            String telefono = scanner.nextLine();
-            datosEnComun.add(telefono);
-            System.out.println(String.format("Ingrese la contrasenIa del:  %s",tipousuario));
+
+            System.out.println(String.format("Ingrese la contrasenIa del:  %s",tipousuario));//2
             String contrasenia = scanner.nextLine();
             datosEnComun.add(contrasenia);
+
+
+
+            boolean esTelefonoValido=false;
+            String telefono="";
+            while (!esTelefonoValido){
+                System.out.print("Ingrese el telefono "+ tipousuario+": "); //4
+                telefono = scanner.nextLine();
+                esTelefonoValido= hospital.validarTelefonoRepetido(rol==Rol.PACIENTE ? hospital.listaPacientes:hospital.listaMedicos,telefono);
+            }
+            datosEnComun.add(telefono);
+
+            //5
+            boolean esEmailValido=false;
+            String email="";
+            while (!esEmailValido){ //5
+                System.out.print("\nIngrese el email del "+tipousuario+": ");
+                email = scanner.nextLine();
+                esEmailValido=hospital.validarEmailRepetido(rol==Rol.PACIENTE ? hospital.listaPacientes:hospital.listaMedicos,email);
+            }
+            datosEnComun.add(email);
+
             return datosEnComun;
         }
 
@@ -276,16 +304,6 @@ public class MenuAdministrador {
         }
         return fechaNacimiento.toString();
         }
-        private boolean validarTelefonoRepetido(
-                ArrayList<? extends Usuario>listaUsarios, String telefono
-        ){
-        for (Usuario usuario : listaUsarios) {
-            if(usuario.getTelefono().equals(telefono)){
-                System.out.println("Ya existe un usuario con ese telefono. Intenta de nuevo");
-                return false;
-            }
-        }
-        return true;
-        }
+
     }
 

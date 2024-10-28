@@ -10,10 +10,14 @@ public class Usuario {
     public String apellidos;
     public LocalDate fechaNacimiento;
     public String telefono;
+    public String email;
     private String contrasenia;
     public Rol rol; //PACIENTE, ADMIN, MEDICO USAR ENUMS.
 
 
+    public String getEmail() {
+        return email;
+    }
 
     public String getId() {
         return id;
@@ -42,7 +46,7 @@ public class Usuario {
         return contrasenia;
     }
 
-    public Usuario(String id, String nombre, String apellidos, LocalDate fechaNacimiento, String telefono, String contrasenia, Rol rol) {
+    public Usuario(String id, String nombre, String apellidos, LocalDate fechaNacimiento, String telefono, String contrasenia, Rol rol, String email) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -50,6 +54,7 @@ public class Usuario {
         this.telefono = telefono;
         this.contrasenia = contrasenia;
         this.rol = rol;
+        this.email=email;
     }
     protected String mostrarInformacion(){
         String nombreCompleto = this.nombre +" "+this.apellidos;

@@ -13,8 +13,8 @@ public class Paciente extends Usuario {
     public char sexo;
     public ArrayList<Expediente> expedientes;
 
-    public Paciente(String id, String nombre, String apellidos, LocalDate fechaNacimiento, String telefono, String tipoSangre, char sexo, String Contrasenia) {
-        super(id, nombre, apellidos, fechaNacimiento, telefono, Contrasenia, Rol.PACIENTE);
+    public Paciente(String id, String nombre, String apellidos, LocalDate fechaNacimiento, String telefono, String tipoSangre, char sexo, String Contrasenia, String email) {
+        super(id, nombre, apellidos, fechaNacimiento, telefono, Contrasenia, Rol.PACIENTE,email);
         this.tipoSangre = tipoSangre;
         this.sexo = sexo;
     }
@@ -25,8 +25,8 @@ public class Paciente extends Usuario {
         return super.mostrarInformacion()+datosPaciente;
     }
     public String mostrarDatos(){
-        String datos= String.format("/n id=%s,nombre:%s,apellido:%s,fecha de nacimiento:%s,tipo de sangre:%s,telefono:%s",id,nombre
-                ,apellidos,fechaNacimiento,tipoSangre,telefono);
+        String datos= String.format("\n id=%s,nombre:%s,apellido:%s,fecha de nacimiento:%s,tipo de sangre :%s,telefono: %s,email: %s",id,nombre
+                ,apellidos,fechaNacimiento,tipoSangre,telefono,email);
         return datos;
     }
 
@@ -49,6 +49,7 @@ public class Paciente extends Usuario {
     public String getTelefono() {
         return telefono;
     }
+
 
     public String getTipoSangre() {
         return tipoSangre;
